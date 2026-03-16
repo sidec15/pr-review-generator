@@ -1,0 +1,16 @@
+node_modules
+dist
+test-out
+.nyc_output
+coverage
+.vs/
+.vscode/
+*.njsproj
+*.tsbuildinfo
+.idea
+.env
+.env.*
+*.env
+temp/
+input.json
+review-prompt.md
