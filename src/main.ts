@@ -7,7 +7,7 @@ import { generatePrompt } from "./generators/promptGenerator";
 import { BitbucketService } from "./services/bitbucketService";
 import { JiraService } from "./services/jiraService";
 import { writeFile } from "./utils/fileUtils";
-import { loadTemplate } from "./utils/templateLoader";
+import codeReviewTemplate from "./templates/code-review-template.md";
 
 dotenv.config({ quiet: true });
 
@@ -61,7 +61,7 @@ async function main(): Promise<void> {
   console.log(`Jira: ${jiraIssue.key} — ${jiraIssue.title}`);
 
   // Build prompt
-  const template = loadTemplate("code-review-template.md");
+  const template = codeReviewTemplate;
 
   const prompt = generatePrompt(template, {
     projectName: config.projectName,
