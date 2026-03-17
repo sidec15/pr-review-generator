@@ -139,7 +139,7 @@ This produces binaries in the `bin/` folder for Windows, Linux, and macOS (x64 +
 
 ### GitHub Releases
 
-Pushing a version tag automatically builds and publishes executables as GitHub Release assets:
+Pre-built executables are published automatically via GitHub Actions when you push a version tag. **Do not create releases manually** — the workflow handles release creation and artifact upload.
 
 ```bash
 git tag v1.0.0
