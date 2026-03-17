@@ -9,7 +9,7 @@ import { JiraService } from "./services/jiraService";
 import { writeFile } from "./utils/fileUtils";
 import { loadTemplate } from "./utils/templateLoader";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 function printHelp(): void {
   console.log(`Usage: pr-review-generator [options]

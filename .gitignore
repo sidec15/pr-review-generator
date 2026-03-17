@@ -16,3 +16,4 @@ input.json
 review-prompt.md
 *-review-prompt.md
 *-pr.diff
+bin/

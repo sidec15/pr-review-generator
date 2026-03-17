@@ -126,3 +126,24 @@ For example, with `jiraTaskId: "SP-12565"` the output is:
 - `SP-12565-pr.diff`
 
 Feed both files to an AI assistant to get a structured code review.
+
+## Standalone executables
+
+You can build standalone executables that don't require Node.js:
+
+```bash
+npm run package
+```
+
+This produces binaries in the `bin/` folder for Windows, Linux, and macOS (x64 + ARM64).
+
+### GitHub Releases
+
+Pushing a version tag automatically builds and publishes executables as GitHub Release assets:
+
+```bash
+git tag v1.0.0
+git push --tags
+```
+
+Download the binary for your platform from the [Releases](../../releases) page and run it directly.

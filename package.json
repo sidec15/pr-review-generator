@@ -12,6 +12,8 @@
   "scripts": {
     "format": "prettier --write .",
     "build": "tsc && copyfiles -u 1 \"src/templates/**/*\" dist",
+    "bundle": "npm run build && esbuild dist/main.js --bundle --platform=node --outfile=dist/bundle.js --loader:.md=text",
+    "package": "npm run bundle && pkg dist/bundle.js --no-bytecode --public --targets node20-linux-x64,node20-macos-x64,node20-macos-arm64,node20-win-x64 --output bin/pr-review-generator",
     "prepublishOnly": "npm run build",
     "start": "node dist/main.js",
     "dev": "ts-node src/main.ts"
@@ -25,7 +27,9 @@
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "@yao-pkg/pkg": "^6.14.1",
     "copyfiles": "^2.4.1",
+    "esbuild": "^0.27.4",
     "prettier": "^3.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
