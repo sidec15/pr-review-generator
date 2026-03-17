@@ -1,5 +1,7 @@
+#!/usr/bin/env node
 import dotenv from "dotenv";
 import path from "path";
+import { parseArgs } from "util";
 import { loadInputConfig } from "./config/loadInput";
 import { generatePrompt } from "./generators/promptGenerator";
 import { BitbucketService } from "./services/bitbucketService";
@@ -9,15 +11,35 @@ import { loadTemplate } from "./utils/templateLoader";
 
 dotenv.config();
 
-async function main(): Promise<void> {
-  const inputPath = process.argv[2];
+function printHelp(): void {
+  console.log(`Usage: pr-review-generator [options]
 
-  if (!inputPath) {
-    throw new Error("Usage: npm run dev -- <input.json>");
+Options:
+  -i, --input <path>   Path to the input JSON file (default: input.json)
+  -o, --output <dir>   Output directory for generated files (default: input file directory)
+  -h, --help           Show this help message`);
+}
+
+async function main(): Promise<void> {
+  const { values } = parseArgs({
+    options: {
+      input: { type: "string", short: "i", default: "input.json" },
+      output: { type: "string", short: "o" },
+      help: { type: "boolean", short: "h", default: false },
+    },
+    strict: true,
+  });
+
+  if (values.help) {
+    printHelp();
+    process.exit(0);
   }
 
+  const inputPath = values.input!;
   const config = loadInputConfig(inputPath);
-  const outputDir = path.dirname(path.resolve(inputPath));
+  const outputDir = values.output
+    ? path.resolve(values.output)
+    : path.dirname(path.resolve(inputPath));
 
   const bitbucket = new BitbucketService();
   const jira = new JiraService();

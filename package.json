@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "CLI tool to generate review prompt markdown and PR diff from Jira and Bitbucket",
   "main": "dist/main.js",
+  "bin": {
+    "pr-review-generator": "dist/main.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "format": "prettier --write .",
-    "build": "tsc",
+    "build": "tsc && copyfiles -u 1 \"src/templates/**/*\" dist",
+    "prepublishOnly": "npm run build",
     "start": "node dist/main.js",
     "dev": "ts-node src/main.ts"
   },
@@ -18,6 +25,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "copyfiles": "^2.4.1",
     "prettier": "^3.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
