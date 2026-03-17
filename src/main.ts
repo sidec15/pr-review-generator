@@ -52,8 +52,8 @@ async function main(): Promise<void> {
   });
 
   // Write outputs
-  writeFile(outputDir, "prompt.md", prompt);
-  writeFile(outputDir, "diff.patch", diff);
+  writeFile(outputDir, `${config.jiraTaskId}-review-prompt.md`, prompt);
+  writeFile(outputDir, `${config.jiraTaskId}-pr.diff`, diff);
 
   console.log("Done.");
 }
