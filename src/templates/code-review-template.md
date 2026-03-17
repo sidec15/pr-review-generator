@@ -11,10 +11,13 @@ The principles and standards to follow for this code review are **clearly define
 - **Title:** {{JIRA_TITLE}}
 - **Description:** {{JIRA_DESCRIPTION}}
 
-**PR Description:**  
-<<PR description provided by the author>>
+**PR Description:**
+{{PR_DESCRIPTION}}
 
-**Reviewer Personal Comments:**  
+**Existing PR Comments:**
+{{PR_COMMENTS}}
+
+**Reviewer Personal Comments:**
 {{REVIEWER_COMMENTS}}
 
 **PR Diff:**  
@@ -35,9 +38,9 @@ Start with a high-level summary of the PR:
 - Briefly note the main files or areas touched.
 - If the reviewer personal comments identify specific concerns, explicitly confirm whether they are valid, partially valid, or not supported by the diff.
 
-### 2. Reviewer Comments Validation
+### 2. Existing PR Comments & Reviewer Comments Validation
 
-Before listing the detailed issues, analyze the **Reviewer Personal Comments** and use them as additional review guidance:
+Before listing the detailed issues, analyze the **Existing PR Comments** and the **Reviewer Personal Comments** and use them as additional review guidance:
 
 - Check whether the concerns raised by the reviewer are actually present in the diff.
 - If they are valid, include them among the detailed review items.

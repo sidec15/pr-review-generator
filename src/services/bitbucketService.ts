@@ -38,6 +38,18 @@ export class BitbucketService {
       `/repositories/${parsed.workspace}/${parsed.repoSlug}/pullrequests/${parsed.pullRequestId}/diff`,
       {
         responseType: "text",
+        beforeRedirect: (options: Record<string, unknown>) => {
+          const auth = this.client.defaults.auth as
+            | { username: string; password: string }
+            | undefined;
+          if (auth) {
+            const encoded = Buffer.from(
+              `${auth.username}:${auth.password}`,
+            ).toString("base64");
+            (options.headers as Record<string, string>).Authorization =
+              `Basic ${encoded}`;
+          }
+        },
       },
     );
 
