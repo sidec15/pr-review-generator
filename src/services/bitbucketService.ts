@@ -1,4 +1,5 @@
 import { AxiosInstance } from "axios";
+import { PrComment } from "../models/PrComment";
 import { PullRequestInfo } from "../models/PullRequest";
 import { parseBitbucketPrUrl } from "../utils/bitbucketUrlParser";
 import { createBitbucketClient } from "./bitbucketClient";
@@ -41,5 +42,39 @@ export class BitbucketService {
     );
 
     return response.data;
+  }
+
+  async getPullRequestComments(prUrl: string): Promise<PrComment[]> {
+    const parsed = parseBitbucketPrUrl(prUrl);
+    const basePath = `/repositories/${parsed.workspace}/${parsed.repoSlug}/pullrequests/${parsed.pullRequestId}/comments`;
+
+    const comments: PrComment[] = [];
+    let nextUrl: string | null = basePath;
+
+    while (nextUrl) {
+      const response: { data: { values?: unknown[]; next?: string } } =
+        await this.client.get(nextUrl);
+      const values = response.data.values ?? [];
+
+      for (const item of values) {
+        const comment = item as Record<string, unknown>;
+        const user = comment.user as Record<string, unknown> | undefined;
+        const content = comment.content as Record<string, unknown> | undefined;
+        const inline = comment.inline as Record<string, unknown> | undefined;
+
+        comments.push({
+          author: (user?.display_name as string) ?? "Unknown",
+          content: (content?.raw as string) ?? "",
+          createdOn: (comment.created_on as string) ?? "",
+          isInline: inline !== undefined && inline !== null,
+          filePath: inline?.path as string | undefined,
+          line: (inline?.to as number) ?? (inline?.from as number),
+        });
+      }
+
+      nextUrl = response.data.next ?? null;
+    }
+
+    return comments;
   }
 }
