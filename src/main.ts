@@ -8,6 +8,7 @@ import { BitbucketService } from "./services/bitbucketService";
 import { JiraService } from "./services/jiraService";
 import { writeFile } from "./utils/fileUtils";
 import codeReviewTemplate from "./templates/code-review-template.md";
+import codeReviewFollowUpTemplate from "./templates/code-review-follow-up-template.md";
 
 dotenv.config({ quiet: true });
 
@@ -61,7 +62,7 @@ async function main(): Promise<void> {
   console.log(`Jira: ${jiraIssue.key} — ${jiraIssue.title}`);
 
   // Build prompt
-  const template = codeReviewTemplate;
+  const template = config.mode === "follow-up" ? codeReviewFollowUpTemplate : codeReviewTemplate;
 
   const prompt = generatePrompt(template, {
     projectName: config.projectName,

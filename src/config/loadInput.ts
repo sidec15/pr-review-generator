@@ -37,4 +37,8 @@ function validateInputConfig(config: InputConfig): void {
   if (config.existingComments && !Array.isArray(config.existingComments)) {
     throw new Error("existingComments must be an array of strings");
   }
+
+  if (config.mode && config.mode !== "first" && config.mode !== "follow-up") {
+    throw new Error('mode must be "first" or "follow-up"');
+  }
 }

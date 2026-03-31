@@ -4,4 +4,5 @@ export interface InputConfig {
   jiraTaskId: string;
   bitbucketPullRequestUrl: string;
   existingComments?: string[];
+  mode?: "first" | "follow-up";
 }
