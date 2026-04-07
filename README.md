@@ -62,22 +62,18 @@ The tool reads a JSON configuration file describing the PR to review.
 
 | Field                     | Type     | Required | Description                               |
 | ------------------------- | -------- | -------- | ----------------------------------------- |
-| `projectName`             | string   | yes      | Name of the project                       |
 | `projectArchitecture`     | string   | yes      | Technology stack (e.g. `.NET`, `Node.js`) |
 | `jiraTaskId`              | string   | yes      | Jira issue key (e.g. `SP-12565`)          |
 | `bitbucketPullRequestUrl` | string   | yes      | Full Bitbucket PR URL                     |
-| `existingComments`        | string[] | no       | Additional reviewer comments to include   |
 | `mode`                    | string   | no       | Review mode: `"first"` (default) or `"follow-up"` |
 
 Example `input.json`:
 
 ```json
 {
-  "projectName": "pooling",
   "projectArchitecture": ".NET",
   "jiraTaskId": "SP-12565",
   "bitbucketPullRequestUrl": "https://bitbucket.org/movesion/mpooling-backend/pull-requests/231",
-  "existingComments": ["Check if the retry logic handles timeout correctly"],
   "mode": "first"
 }
 ```

@@ -5,7 +5,6 @@ The principles and standards to follow for this code review are **clearly define
 
 ---
 
-**Project:** {{PROJECT_NAME}}  
 **Technology Stack:** {{ARCHITECTURE}}
 
 ---
@@ -26,9 +25,6 @@ The principles and standards to follow for this code review are **clearly define
 {{PR_COMMENTS}}
 
 ---
-
-**Reviewer Personal Comments (to validate):**  
-{{REVIEWER_COMMENTS}}
 
 ---
 

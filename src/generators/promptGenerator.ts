@@ -6,13 +6,11 @@ export function generatePrompt(
   context: PromptContext,
 ): string {
   const values: Record<string, string> = {
-    PROJECT_NAME: context.projectName,
     ARCHITECTURE: context.architecture,
     JIRA_TITLE: context.jiraTitle,
     JIRA_DESCRIPTION: context.jiraDescription,
     PR_DESCRIPTION: context.prDescription || "No description provided.",
     PR_COMMENTS: formatPrComments(context.prComments),
-    REVIEWER_COMMENTS: context.reviewerComments?.join("\n") ?? "None.",
   };
 
   return template.replace(/\{\{(.*?)\}\}/g, (_, key) => {

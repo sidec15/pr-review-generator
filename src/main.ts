@@ -21,11 +21,9 @@ Options:
   -h, --help           Show this help message
 
 Input JSON fields:
-  projectName              (required) Name of the project
   projectArchitecture      (required) Technology stack (e.g. ".NET", "Node.js")
   jiraTaskId               (required) Jira issue key (e.g. "SP-12565")
   bitbucketPullRequestUrl  (required) Full Bitbucket pull request URL
-  existingComments         (optional) Array of additional reviewer comments
   mode                     (optional) Review mode: "first" or "follow-up" (default: "first")`);
 }
 
@@ -73,13 +71,11 @@ async function main(): Promise<void> {
   const template = config.mode === "follow-up" ? codeReviewFollowUpTemplate : codeReviewTemplate;
 
   const prompt = generatePrompt(template, {
-    projectName: config.projectName,
     architecture: config.projectArchitecture,
     jiraTitle: jiraIssue.title,
     jiraDescription: jiraIssue.description,
     prDescription: prInfo.description,
     prComments,
-    reviewerComments: config.existingComments,
   });
 
   // Write outputs

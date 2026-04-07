@@ -3,7 +3,6 @@
 **IMPORTANT – REVIEW PRINCIPLES:**  
 The principles and standards to follow for this code review are **clearly defined in the attached resource files**. You **must** read and thoroughly understand these resource files before starting. Your review must strictly adhere to these guidelines. When referring to them in your comments, speak of **"our standards"** rather than naming specific files.
 
-**Project:** {{PROJECT_NAME}}
 **Technology Stack:** {{ARCHITECTURE}}
 
 **Jira Task:**
@@ -16,9 +15,6 @@ The principles and standards to follow for this code review are **clearly define
 
 **Existing PR Comments:**
 {{PR_COMMENTS}}
-
-**Reviewer Personal Comments:**
-{{REVIEWER_COMMENTS}}
 
 **PR Diff:**  
 The diff file is attached to this message. Please review the changes in that file.
