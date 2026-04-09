@@ -5,6 +5,8 @@ The principles and standards to follow for this code review are **clearly define
 
 **Technology Stack:** {{ARCHITECTURE}}
 
+{{MODULE_SECTION}}
+
 **Jira Task:**
 
 - **Title:** {{JIRA_TITLE}}

@@ -66,12 +66,14 @@ The tool reads a JSON configuration file describing the PR to review.
 | `jiraTaskId`              | string   | yes      | Jira issue key (e.g. `SP-12565`)          |
 | `bitbucketPullRequestUrl` | string   | yes      | Full Bitbucket PR URL                     |
 | `mode`                    | string   | no       | Review mode: `"first"` (default) or `"follow-up"` |
+| `module`                  | string   | no       | Business module the PR targets (e.g. `survey`, `carpooling`, `wallet`). When set, the prompt asks the AI to apply the module-specific rules from attached resources. |
 
 Example `input.json`:
 
 ```json
 {
   "projectArchitecture": ".NET",
+  "module": "carpooling",
   "jiraTaskId": "SP-12565",
   "bitbucketPullRequestUrl": "https://bitbucket.org/movesion/mpooling-backend/pull-requests/231",
   "mode": "first"

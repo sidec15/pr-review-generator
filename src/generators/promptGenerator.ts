@@ -7,6 +7,7 @@ export function generatePrompt(
 ): string {
   const values: Record<string, string> = {
     ARCHITECTURE: context.architecture,
+    MODULE_SECTION: formatModuleSection(context.module),
     JIRA_TITLE: context.jiraTitle,
     JIRA_DESCRIPTION: context.jiraDescription,
     PR_DESCRIPTION: context.prDescription || "No description provided.",
@@ -17,6 +18,17 @@ export function generatePrompt(
     const value = values[key.trim()];
     return value ?? "";
   });
+}
+
+function formatModuleSection(module: string | undefined): string {
+  if (!module) {
+    return "";
+  }
+  return [
+    `**Module:** ${module}`,
+    "",
+    `This PR targets the **${module}** module — when the attached resources contain module-specific rules, apply the ones for \`${module}\`.`,
+  ].join("\n");
 }
 
 function formatPrComments(comments: PrComment[]): string {

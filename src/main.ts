@@ -24,7 +24,8 @@ Input JSON fields:
   projectArchitecture      (required) Technology stack (e.g. ".NET", "Node.js")
   jiraTaskId               (required) Jira issue key (e.g. "SP-12565")
   bitbucketPullRequestUrl  (required) Full Bitbucket pull request URL
-  mode                     (optional) Review mode: "first" or "follow-up" (default: "first")`);
+  mode                     (optional) Review mode: "first" or "follow-up" (default: "first")
+  module                   (optional) Business module the PR targets (e.g. "survey", "carpooling", "wallet")`);
 }
 
 async function main(): Promise<void> {
@@ -72,6 +73,7 @@ async function main(): Promise<void> {
 
   const prompt = generatePrompt(template, {
     architecture: config.projectArchitecture,
+    module: config.module,
     jiraTitle: jiraIssue.title,
     jiraDescription: jiraIssue.description,
     prDescription: prInfo.description,
