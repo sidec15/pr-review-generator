@@ -11,12 +11,37 @@ CLI tool that generates a structured code review prompt and PR diff by pulling d
 
 ## Prerequisites
 
-- **Node.js** >= 18.3
 - A **Bitbucket** API token with `read:pullrequest:bitbucket` and `read:repository:bitbucket` scopes
 - A **Jira** API token with `read:jira-user` and `read:jira-work` scopes
 - Your Jira Cloud ID (check how to find it in the [Jira documentation](https://support.atlassian.com/jira/kb/retrieve-my-atlassian-sites-cloud-id/))
+- **Node.js** >= 18.3 — only needed if you [install from source](#from-source) or use [local development](#local-development). The [pre-built releases](#from-github-releases) run without Node.js.
 
 ## Installation
+
+### From GitHub Releases
+
+This is the simplest way to use the tool: download a standalone executable from [Releases](../../releases) — no Node.js installation required.
+
+Each release includes binaries built for:
+
+| Platform        | Download |
+| --------------- | -------- |
+| Windows (x64)   | `pr-review-generator-win-x64.exe` |
+| Linux (x64)     | `pr-review-generator-linux-x64` |
+| macOS (Intel)   | `pr-review-generator-macos-x64` |
+| macOS (Apple Silicon) | `pr-review-generator-macos-arm64` |
+
+After downloading:
+
+- **Windows:** run `pr-review-generator-win-x64.exe` (rename or add its folder to your `PATH` if you want to invoke `pr-review-generator` from anywhere).
+- **Linux / macOS:** make the file executable, then run it (optionally move it to a directory on your `PATH` and name it `pr-review-generator`):
+
+```bash
+chmod +x pr-review-generator-macos-arm64
+./pr-review-generator-macos-arm64 --help
+```
+
+### From source
 
 ```bash
 git clone <repository-url>
@@ -28,7 +53,9 @@ npm install -g .
 
 After this, `pr-review-generator` is available globally.
 
-For development without global install:
+### Local development
+
+Run without a global install:
 
 ```bash
 npm run dev -- -i input.json
@@ -127,23 +154,21 @@ For example, with `jiraTaskId: "SP-12565"` the output is:
 
 Feed both files to an AI assistant to get a structured code review.
 
-## Standalone executables
+## Building standalone binaries locally
 
-You can build standalone executables that don't require Node.js:
+To produce the same kind of executables as in [Releases](../../releases) on your machine:
 
 ```bash
 npm run package
 ```
 
-This produces binaries in the `bin/` folder for Windows, Linux, and macOS (x64 + ARM64).
+Artifacts are written to `bin/` for Windows, Linux, and macOS (x64 + ARM64).
 
-### GitHub Releases
+### Publishing a release
 
-Pre-built executables are published automatically via GitHub Actions when you push a version tag. **Do not create releases manually** — the workflow handles release creation and artifact upload.
+Pre-built executables are published automatically via GitHub Actions when you push a version tag. **Do not create releases manually** — the workflow creates the release and uploads the binaries.
 
 ```bash
 git tag v1.0.0
 git push --tags
 ```
-
-Download the binary for your platform from the [Releases](../../releases) page and run it directly.
