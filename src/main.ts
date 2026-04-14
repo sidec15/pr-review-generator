@@ -67,6 +67,7 @@ async function main(): Promise<void> {
   console.log(`Fetching Jira issue ${config.jiraTaskId}...`);
   const jiraIssue = await jira.getIssue(config.jiraTaskId);
   console.log(`Jira: ${jiraIssue.key} — ${jiraIssue.title}`);
+  console.log(`Fetched ${jiraIssue.comments.length} Jira comment(s).`);
 
   // Build prompt
   const template = config.mode === "follow-up" ? codeReviewFollowUpTemplate : codeReviewTemplate;
@@ -76,6 +77,7 @@ async function main(): Promise<void> {
     module: config.module,
     jiraTitle: jiraIssue.title,
     jiraDescription: jiraIssue.description,
+    jiraComments: jiraIssue.comments,
     prDescription: prInfo.description,
     prComments,
   });

@@ -16,6 +16,9 @@ If any coding rules, guidelines, or standards are available to you in the curren
 - **Title:** {{JIRA_TITLE}}
 - **Description:** {{JIRA_DESCRIPTION}}
 
+**Jira Task Comments:**
+{{JIRA_COMMENTS}}
+
 ---
 
 **PR Description:**  

@@ -1,3 +1,4 @@
+import { JiraComment } from "../models/JiraComment";
 import { PrComment } from "../models/PrComment";
 import { PromptContext } from "../models/PromptContext";
 
@@ -10,6 +11,7 @@ export function generatePrompt(
     MODULE_SECTION: formatModuleSection(context.module),
     JIRA_TITLE: context.jiraTitle,
     JIRA_DESCRIPTION: context.jiraDescription,
+    JIRA_COMMENTS: formatJiraComments(context.jiraComments),
     PR_DESCRIPTION: context.prDescription || "No description provided.",
     PR_COMMENTS: formatPrComments(context.prComments),
   };
@@ -43,5 +45,15 @@ function formatPrComments(comments: PrComment[]): string {
         : "";
       return `- **${c.author}**${location}: ${c.content}`;
     })
+    .join("\n");
+}
+
+function formatJiraComments(comments: JiraComment[]): string {
+  if (comments.length === 0) {
+    return "No existing comments.";
+  }
+
+  return comments
+    .map((c) => `- **${c.author}**: ${c.content}`)
     .join("\n");
 }

@@ -1,5 +1,6 @@
 import { AxiosInstance } from "axios";
 import { JiraIssue } from "../models/JiraIssue";
+import { JiraComment } from "../models/JiraComment";
 import { createJiraClient } from "./jiraClient";
 
 export class JiraService {
@@ -12,18 +13,30 @@ export class JiraService {
   async getIssue(issueKey: string): Promise<JiraIssue> {
     const response = await this.client.get(
       `/rest/api/3/issue/${issueKey}`,
-      { params: { fields: "summary,description" } },
+      { params: { fields: "summary,description,comment" } },
     );
 
     const data = response.data;
+    const rawComments = (data.fields?.comment?.comments ?? []) as unknown[];
 
     return {
       id: data.id,
       key: data.key,
       title: data.fields.summary ?? "",
       description: extractTextFromAdf(data.fields.description),
+      comments: rawComments.map(parseJiraComment),
     };
   }
+}
+
+function parseJiraComment(raw: unknown): JiraComment {
+  const c = raw as Record<string, unknown>;
+  const author = c.author as Record<string, unknown> | undefined;
+  return {
+    author: (author?.displayName as string) ?? "Unknown",
+    content: extractTextFromAdf(c.body),
+    createdOn: (c.created as string) ?? "",
+  };
 }
 
 function extractTextFromAdf(node: unknown): string {
