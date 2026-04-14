@@ -15,6 +15,9 @@ The generated prompt is designed to be portable across AI assistants (Claude, Ch
 
 - A **Bitbucket** API token with `read:pullrequest:bitbucket` and `read:repository:bitbucket` scopes
 - A **Jira** API token with `read:jira-user` and `read:jira-work` scopes
+
+For step-by-step token creation in your Atlassian account, see [Creating API tokens (Jira and Bitbucket)](#creating-api-tokens-jira-and-bitbucket).
+
 - Your Jira Cloud ID (check how to find it in the [Jira documentation](https://support.atlassian.com/jira/kb/retrieve-my-atlassian-sites-cloud-id/))
 - **Node.js** >= 18.3 — only needed if you [install from source](#from-source) or use [local development](#local-development). The [pre-built releases](#from-github-releases) run without Node.js.
 
@@ -26,11 +29,11 @@ This is the simplest way to use the tool: download a standalone executable from 
 
 Each release includes binaries built for:
 
-| Platform        | Download |
-| --------------- | -------- |
-| Windows (x64)   | `pr-review-generator-win-x64.exe` |
-| Linux (x64)     | `pr-review-generator-linux-x64` |
-| macOS (Intel)   | `pr-review-generator-macos-x64` |
+| Platform              | Download                          |
+| --------------------- | --------------------------------- |
+| Windows (x64)         | `pr-review-generator-win-x64.exe` |
+| Linux (x64)           | `pr-review-generator-linux-x64`   |
+| macOS (Intel)         | `pr-review-generator-macos-x64`   |
 | macOS (Apple Silicon) | `pr-review-generator-macos-arm64` |
 
 After downloading:
@@ -89,13 +92,13 @@ PR_REVIEW_GENERATOR_JIRA_API_TOKEN=your-jira-api-token
 
 The tool reads a JSON configuration file describing the PR to review.
 
-| Field                     | Type     | Required | Description                               |
-| ------------------------- | -------- | -------- | ----------------------------------------- |
-| `projectArchitecture`     | string   | yes      | Technology stack (e.g. `.NET`, `Node.js`) |
-| `jiraTaskId`              | string   | yes      | Jira issue key (e.g. `SP-12565`)          |
-| `bitbucketPullRequestUrl` | string   | yes      | Full Bitbucket PR URL                     |
-| `mode`                    | string   | no       | Review mode: `"first"` (default) or `"follow-up"` |
-| `module`                  | string   | no       | Business module the PR targets (e.g. `survey`, `carpooling`, `wallet`). When set, the prompt asks the AI to apply the module-specific rules from attached resources. |
+| Field                     | Type   | Required | Description                                                                                                                                                                                                                                                       |
+| ------------------------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `projectArchitecture`     | string | yes      | Technology stack (e.g. `.NET`, `Node.js`)                                                                                                                                                                                                                         |
+| `jiraTaskId`              | string | yes      | Jira issue key (e.g. `SP-12565`)                                                                                                                                                                                                                                  |
+| `bitbucketPullRequestUrl` | string | yes      | Full Bitbucket PR URL                                                                                                                                                                                                                                             |
+| `mode`                    | string | no       | Review mode: `"first"` (default) or `"follow-up"`                                                                                                                                                                                                                 |
+| `module`                  | string | no       | Business module the PR targets (e.g. `survey`, `carpooling`, `wallet`). Omit the field or use an empty string to skip module-specific guidance. When set to a non-empty value, the prompt asks the AI to apply the module-specific rules from attached resources. |
 
 Example `input.json`:
 
@@ -144,10 +147,10 @@ pr-review-generator -h
 
 The tool generates two files in the output directory:
 
-| File                            | Description                                                                               |
-| ------------------------------- | ----------------------------------------------------------------------------------------- |
+| File                            | Description                                                                                                                                                  |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `{jiraTaskId}-review-prompt.md` | Filled review prompt with Jira context (title, description, comments, and parent task when applicable), PR description and comments, and review instructions |
-| `{jiraTaskId}-pr.diff`          | Raw PR diff                                                                               |
+| `{jiraTaskId}-pr.diff`          | Raw PR diff                                                                                                                                                  |
 
 For example, with `jiraTaskId: "SP-12565"` the output is:
 
@@ -174,3 +177,37 @@ Pre-built executables are published automatically via GitHub Actions when you pu
 git tag v1.0.0
 git push --tags
 ```
+
+## Creating API tokens (Jira and Bitbucket)
+
+This tool needs **two separate Atlassian API tokens**: one for **Jira** and one for **Bitbucket**. Each token must be created with the scopes listed in [Prerequisites](#prerequisites). Use scoped tokens so you grant only the minimum access required.
+
+### Where to create tokens
+
+1. Sign in to your Atlassian account and open **[Security](https://id.atlassian.com/manage-profile/security)** section.
+2. Find the **API tokens** section and choose **Create and manage API tokens**.
+3. For each token, use **Create API token with scopes** (not a legacy unrestricted token). Give the token a clear label (for example `pr-review-generator-jira` and `pr-review-generator-bitbucket`) so you can tell them apart later.
+4. After creation, **copy the token value immediately**. Atlassian shows it only once. Store it in a password manager or paste it straight into your environment or `.env` file.
+
+### Jira token
+
+When selecting scopes for the Jira token, enable:
+
+- `read:jira-user`
+- `read:jira-work`
+
+Put this value in `PR_REVIEW_GENERATOR_JIRA_API_TOKEN`. Use the same Atlassian account email in `PR_REVIEW_GENERATOR_JIRA_EMAIL`, and set `PR_REVIEW_GENERATOR_JIRA_CLOUD_ID` to your site’s Cloud ID ([how to find it](https://support.atlassian.com/jira/kb/retrieve-my-atlassian-sites-cloud-id/)).
+
+### Bitbucket token
+
+When selecting scopes for the Bitbucket token, enable:
+
+- `read:pullrequest:bitbucket`
+- `read:repository:bitbucket`
+
+Put this value in `PR_REVIEW_GENERATOR_BITBUCKET_API_TOKEN`, and set `PR_REVIEW_GENERATOR_BITBUCKET_USERNAME` to your Bitbucket username (your Atlassian account email).
+
+### Before you run the tool
+
+- Confirm both tokens are **scoped** tokens with exactly the scopes above; missing scopes usually show up as `401` / `403` errors when the CLI calls Jira or Bitbucket.
+- Treat tokens like passwords: do not commit them, and rotate them if they are exposed.
