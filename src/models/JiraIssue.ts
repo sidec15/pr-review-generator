@@ -1,4 +1,5 @@
 import { JiraComment } from "./JiraComment";
+import { JiraParent } from "./JiraParent";
 
 export interface JiraIssue {
   id: string;
@@ -6,4 +7,5 @@ export interface JiraIssue {
   title: string;
   description: string;
   comments: JiraComment[];
+  parent?: JiraParent;
 }

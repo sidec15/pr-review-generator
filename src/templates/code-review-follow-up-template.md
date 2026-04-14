@@ -11,6 +11,8 @@ If any coding rules, guidelines, or standards are available to you in the curren
 
 ---
 
+{{JIRA_PARENT_SECTION}}
+
 **Jira Task:**
 
 - **Title:** {{JIRA_TITLE}}

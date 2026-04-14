@@ -1,4 +1,5 @@
 import { JiraComment } from "../models/JiraComment";
+import { JiraParent } from "../models/JiraParent";
 import { PrComment } from "../models/PrComment";
 import { PromptContext } from "../models/PromptContext";
 
@@ -9,6 +10,7 @@ export function generatePrompt(
   const values: Record<string, string> = {
     ARCHITECTURE: context.architecture,
     MODULE_SECTION: formatModuleSection(context.module),
+    JIRA_PARENT_SECTION: formatJiraParentSection(context.jiraParent),
     JIRA_TITLE: context.jiraTitle,
     JIRA_DESCRIPTION: context.jiraDescription,
     JIRA_COMMENTS: formatJiraComments(context.jiraComments),
@@ -30,6 +32,19 @@ function formatModuleSection(module: string | undefined): string {
     `**Module:** ${module}`,
     "",
     `This PR targets the **${module}** module — when the attached resources contain module-specific rules, apply the ones for \`${module}\`.`,
+  ].join("\n");
+}
+
+function formatJiraParentSection(parent: JiraParent | undefined): string {
+  if (!parent) {
+    return "";
+  }
+  return [
+    "**Parent Jira Task:**",
+    "",
+    `- **Key:** ${parent.key}`,
+    `- **Title:** ${parent.title}`,
+    `- **Description:** ${parent.description}`,
   ].join("\n");
 }
 

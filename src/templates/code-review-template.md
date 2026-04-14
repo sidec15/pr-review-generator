@@ -7,6 +7,8 @@ If any coding rules, guidelines, or standards are available to you in the curren
 
 {{MODULE_SECTION}}
 
+{{JIRA_PARENT_SECTION}}
+
 **Jira Task:**
 
 - **Title:** {{JIRA_TITLE}}
@@ -34,7 +36,7 @@ Follow the workflow below exactly. Base your review on whatever rules or guideli
 
 Start with a high-level summary of the PR:
 
-- What is the goal of this change? (Infer from Jira task + Jira comments / PR description + PR comments / diff)
+- What is the goal of this change? (Infer from Parent Jira task (if any) + Jira task + Jira comments / PR description + PR comments / diff)
 - Does the code generally move in the right direction?
 - Briefly note the main files or areas touched.
 - If the existing PR comments identify specific concerns, explicitly confirm whether they are valid, partially valid, or not supported by the diff.

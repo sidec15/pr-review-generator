@@ -1,6 +1,7 @@
 import { AxiosInstance } from "axios";
 import { JiraIssue } from "../models/JiraIssue";
 import { JiraComment } from "../models/JiraComment";
+import { JiraParent } from "../models/JiraParent";
 import { createJiraClient } from "./jiraClient";
 
 export class JiraService {
@@ -13,11 +14,14 @@ export class JiraService {
   async getIssue(issueKey: string): Promise<JiraIssue> {
     const response = await this.client.get(
       `/rest/api/3/issue/${issueKey}`,
-      { params: { fields: "summary,description,comment" } },
+      { params: { fields: "summary,description,comment,parent" } },
     );
 
     const data = response.data;
     const rawComments = (data.fields?.comment?.comments ?? []) as unknown[];
+    const parentKey = (data.fields?.parent as Record<string, unknown> | undefined)?.key as string | undefined;
+
+    const parent = parentKey ? await this.getParent(parentKey) : undefined;
 
     return {
       id: data.id,
@@ -25,6 +29,22 @@ export class JiraService {
       title: data.fields.summary ?? "",
       description: extractTextFromAdf(data.fields.description),
       comments: rawComments.map(parseJiraComment),
+      parent,
+    };
+  }
+
+  private async getParent(parentKey: string): Promise<JiraParent> {
+    const response = await this.client.get(
+      `/rest/api/3/issue/${parentKey}`,
+      { params: { fields: "summary,description" } },
+    );
+
+    const data = response.data;
+
+    return {
+      key: data.key,
+      title: data.fields?.summary ?? "",
+      description: extractTextFromAdf(data.fields?.description),
     };
   }
 }

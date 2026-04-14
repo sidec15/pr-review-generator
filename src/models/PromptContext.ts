@@ -1,4 +1,5 @@
 import { JiraComment } from "./JiraComment";
+import { JiraParent } from "./JiraParent";
 import { PrComment } from "./PrComment";
 
 export interface PromptContext {
@@ -7,6 +8,7 @@ export interface PromptContext {
   jiraTitle: string;
   jiraDescription: string;
   jiraComments: JiraComment[];
+  jiraParent?: JiraParent;
   prDescription: string;
   prComments: PrComment[];
 }

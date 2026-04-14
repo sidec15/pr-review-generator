@@ -5,9 +5,11 @@ CLI tool that generates a structured code review prompt and PR diff by pulling d
 ## What it does
 
 1. Fetches pull request metadata, diff, and comments from Bitbucket
-2. Fetches the linked Jira issue summary and description
+2. Fetches the linked Jira issue summary, description, and comments — plus the parent issue's title and description when the task is a subtask
 3. Fills a review prompt template with all the collected context
 4. Outputs two files: a review prompt markdown and the raw PR diff
+
+The generated prompt is designed to be portable across AI assistants (Claude, ChatGPT, DeepSeek, etc.). It instructs the model to apply any coding rules, guidelines, or standards available in its current context — attached files, project instructions, system prompts, workspace rules — and to fall back to widely accepted best practices when none are provided.
 
 ## Prerequisites
 
@@ -144,7 +146,7 @@ The tool generates two files in the output directory:
 
 | File                            | Description                                                                               |
 | ------------------------------- | ----------------------------------------------------------------------------------------- |
-| `{jiraTaskId}-review-prompt.md` | Filled review prompt with Jira context, PR description, comments, and review instructions |
+| `{jiraTaskId}-review-prompt.md` | Filled review prompt with Jira context (title, description, comments, and parent task when applicable), PR description and comments, and review instructions |
 | `{jiraTaskId}-pr.diff`          | Raw PR diff                                                                               |
 
 For example, with `jiraTaskId: "SP-12565"` the output is:
